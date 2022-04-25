@@ -1,3 +1,1 @@
-module.exports = {
-    customElement: true
-};
+module.exports = {};

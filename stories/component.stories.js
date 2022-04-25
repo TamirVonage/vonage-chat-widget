@@ -8,12 +8,12 @@ export default {
 
 export const Text = () => ({
   Component: Component,
-  props: { name: 'World', buttonText: 'Hello Button' },
+  props: { },
   on: { click: action('clicked') },
 });
 
 export const Emoji = () => ({
   Component: Component,
-  props: { name: '😀 😎', buttonText: '👍 💯' },
+  props: { },
   on: { click: action('clicked') },
 });

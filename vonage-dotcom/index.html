@@ -229,9 +229,9 @@
 <link rel="stylesheet" href="https://www.vonage.co.uk/etc.clientlibs/vonage/clientlibs/clientlib-site.min.cf6b3fb5e5fc6b7b0dea6e964db87ca4.css" type="text/css">
 <script async src='https://www.vonage.co.uk/cdn-cgi/bm/cv/669835187/api.js'></script></head>
 <body class="generic-page page basicpage">
-<div style=" z-index: 1000; position: absolute;">
+<div class="chat-container">
 
-<my-counter> </my-counter>
+<chat-widget class=""></chat-widget>
 </div>
 <div>
 <div class="root responsivegrid">
@@ -815,6 +815,13 @@ Provide your sales and service agents with just what they need to make every con
 
 @media (min-width: 992px) {
 .landing-page-hero--white {margin-bottom:-4rem;}
+}
+
+.chat-container {
+  position: fixed; 
+  bottom: 2em; 
+  right: 1em;
+  z-index: 1000;
 }
 
 .landing-page-hero--media-landscape .landing-page-hero__background {

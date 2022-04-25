@@ -1,7 +1,7 @@
 <svelte:options tag="chat-widget" />
 
 <script>
-		let showChat = false;
+		let showChat = true;
 		function handleClick() {
 		showChat = !showChat
 		}
@@ -16,6 +16,7 @@
         box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%);
         width: 500px;
         border-radius: 18px;
+        background: white;
 
   }
 
@@ -29,6 +30,9 @@
     font-size: 1.4em;
     line-height: 1.4;
     letter-spacing: normal;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
 	}
 
@@ -38,18 +42,22 @@
 
 	.message-bubble {
 	background: #f2f2f8;;
-	border-radius: 15px;
-	padding: 12px;
-    margin-bottom: 22px;
+	border-radius: 8px;
+	padding: 12px 14px;
+   margin-bottom: 12px;
     display: flex;
 	}
 
     .agent-message-bubble {
         background: gray;;
-	    border-radius: 15px;
-	    padding: 12px;
-        margin-bottom: 22px;
+	    border-radius: 8px;
+	    padding: 12px 14px;
+       margin-bottom: 12px;
         display: flex;
+    }
+
+        .close-icon {
+        cursor: pointer;
     }
 
     .agent-message-bubble-parent {
@@ -60,14 +68,48 @@
         .message-bubble-parent {
               display: inline-flex;
     }
+
+    .input-textarea {
+        resize: none;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    margin: 10px 10px 10px 10px;
+    padding: 11px 0 11px 0;
+    font-size: .98em;
+    font-weight: 400;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: var(--user-input-fg-color);
+    background-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    max-height: 44px;
+    min-height: 44px;
+    overflow: scroll;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: inherit;
+    letter-spacing: normal;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    flex-grow: 1;
+    width: 100%;
+    }
+
+    .user-input-container {
+        display:flex;
+    }
+
+  
 </style>
 
-<vwc-fab on:click={handleClick} icon="chat-2-line"></vwc-fab>
 
 
-<!-- {#if 	showChat} -->
-	<div class="chat-container">
-		<div class="title"> Chat </div>
+ {#if 	showChat} 
+	<div  class="chat-container">
+		<div class="title"> <span> Chat </span> <vwc-icon on:click={handleClick} type="minus-line" class="close-icon"> </vwc-icon></div>
 		<div class="content"> 	
 			<div class="message-bubble-parent"> 	<div class="message-bubble"> bla bla </div>  </div>
             <div class="agent-message-bubble-parent"> <div class="agent-message-bubble"> bla bla </div> </div>
@@ -76,10 +118,25 @@
 		
         
         </div> 
-	
+    <div class="user-input-container">
+       <textarea rows="1" id="wcw-user-input-field" role="textbox" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
+    <vwc-icon-button icon="message-sent-line"></vwc-icon-button>
+
+
+    
+    </div>
+     
 		</div>
 
 
 
-<!-- {/if} -->
+ {/if} 
+
+ {#if 	!showChat} 
+<vwc-fab on:click={handleClick} icon="chat-2-line"></vwc-fab>
+ {/if} 
+
+
+
+
 

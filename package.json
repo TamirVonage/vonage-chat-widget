@@ -13,25 +13,25 @@
     "build-storybook": "del-cli docs && build-storybook -c .storybook -o docs"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@rollup/plugin-node-resolve": "^6.0.0",
-    "@storybook/addon-actions": "^5.3.18",
-    "@storybook/addon-links": "^5.3.18",
-    "@storybook/addons": "^5.3.18",
-    "@storybook/svelte": "^5.3.18",
-    "@testing-library/jest-dom": "^5.3.0",
-    "@testing-library/svelte": "^3.0.0",
-    "babel-jest": "^25.2.6",
-    "babel-loader": "^8.1.0",
-    "del-cli": "^3.0.0",
-    "jest": "^25.2.7",
-    "rollup": "^1.20.0",
-    "rollup-plugin-svelte": "^5.0.0",
-    "rollup-plugin-terser": "^5.3.0",
-    "svelte": "^3.20.1",
-    "svelte-jester": "^1.0.5",
-    "svelte-loader": "^2.13.6"
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@rollup/plugin-node-resolve": "^13.2.1",
+    "@storybook/addon-actions": "^6.4.22",
+    "@storybook/addon-links": "^6.4.22",
+    "@storybook/addons": "^6.4.22",
+    "@storybook/svelte": "^6.4.22",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/svelte": "^3.1.1",
+    "babel-jest": "^27.5.1",
+    "babel-loader": "^8.2.5",
+    "del-cli": "^4.0.1",
+    "jest": "^27.5.1",
+    "rollup": "^2.70.2",
+    "rollup-plugin-svelte": "^7.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "svelte": "^3.47.0",
+    "svelte-jester": "^2.3.2",
+    "svelte-loader": "^3.1.2"
   },
   "keywords": [
     "svelte"
@@ -53,5 +53,8 @@
   "bugs": {
     "url": "https://github.com/TamirVonage/vonage-chat-widget/issues"
   },
-  "homepage": "https://github.com/TamirVonage/vonage-chat-widget#readme"
+  "homepage": "https://github.com/TamirVonage/vonage-chat-widget#readme",
+  "dependencies": {
+    "@vonage/vivid": "^2.28.0"
+  }
 }

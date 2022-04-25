@@ -1,4 +1,4 @@
-<svelte:options tag="my-counter" />
+<svelte:options tag="my-counter"/>
 
 <script>
     import { createEventDispatcher } from 'svelte';

@@ -16,7 +16,7 @@ export default {
     { file: pkg.main.replace('.js','.min.js'), format: 'iife', name, plugins: [terser()]}
 	],
 	plugins: [
-		svelte(),
+		svelte({customElement: true}),
 		resolve()
 	]
 };

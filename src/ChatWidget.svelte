@@ -208,6 +208,15 @@ function handleKeydown(event) {
     animation-delay: 0.7s;
 }
 
+.title-with-icon {
+    display: flex;
+    align-items: center;
+}
+
+.bot-icon {
+    margin-right: 10px;
+}
+
 .user-input-container {
     border-top: 1px solid #ebe9e9;
     padding: 0 10px 0 10px;
@@ -220,7 +229,7 @@ function handleKeydown(event) {
  {#if 	showChat}
     <div  bind:this={container} class="chat-container">
 
-    <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="chevron-down-line" class="close-icon"> </vwc-icon></div>
+    <div class="title"> <div class="title-with-icon">  <vwc-icon class="bot-icon" type="bot-line"> </vwc-icon> <span> Chat </span> </div> <vwc-icon on:click={toggleChat} type="chevron-down-line" class="close-icon"> </vwc-icon></div>
 
 <div id="content_container" class="content">
 {#each messages as message, index}

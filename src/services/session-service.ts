@@ -1,4 +1,4 @@
-import { Message } from "./message";
+import { Message } from "../message";
 
 export class SessionService {
     async init(agentId: string, key: string): Promise<{ id: string, token: string }> {

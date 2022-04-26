@@ -45,12 +45,13 @@ function addMessage() {
         text: userInput
     }];
 
-    if (!isSessionActive){
-        initSession();
-    }
+    
     loadingResponse = true;
+    let tempUserInput =  userInput;
+    userInput = "";
+
     setTimeout(() => {
-    sessionService.step(sessionId, sessionToken, userInput)
+    sessionService.step(sessionId, sessionToken, tempUserInput)
         .then((res) => {
             loadingResponse = false;
             console.log(res);
@@ -60,7 +61,7 @@ function addMessage() {
                     text: message.text
                 }];
             });
-            userInput = "";
+           
             isSessionActive = (res.status === "ENDED");
         }).catch((err) => {
             loadingResponse = false;
@@ -210,7 +211,7 @@ function handleKeydown(event) {
  {#if 	showChat}
     <div class="chat-container">
 
-    <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
+    <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="chevron-down-line" class="close-icon"> </vwc-icon></div>
 
 <div id="content_container" class="content">
 {#each messages as message}

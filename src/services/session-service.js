@@ -46,7 +46,8 @@ export class SessionService {
                input
             }),
             headers: {
-                'Authorization': `Bearer ${sessionToken}`
+                'Authorization': `Bearer ${sessionToken}`,
+                'Content-Type': 'application/json'
             }
         })
 

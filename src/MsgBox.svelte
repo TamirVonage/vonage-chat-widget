@@ -15,6 +15,10 @@ function getMinute(c) {
 function getMeridiem(c) {
     return c.getHours() < 12 ? "AM" : "PM";
 }
+
+function openMetting(c) {
+    window.open("https://meetings.vonage.com/234299", "_blank")
+}
 </script>
 
 <style>
@@ -22,6 +26,11 @@ function getMeridiem(c) {
     align-items: baseline;
     display: flex;
     margin-bottom: 0.3rem;
+}
+
+.open-meeting-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .msg-title {
@@ -79,7 +88,20 @@ function getMeridiem(c) {
     <div class="msg-header">
         <div class="msg-title"> Agent</div>
         <div class="msg-time"> • {getHour(currentDateTime)}:{getMinute(currentDateTime)} {getMeridiem(currentDateTime)}  </div>
-    </div> {@html text} </div>
+    </div>
+        {#if text && text.startsWith('https://meetings.vonage.com/')}
+            <vwc-button connotation="cta" icon="open-line" class="open-meeting-btn" on:click={openMetting} label="Open meeting" layout="filled" type="submit" unelevated="">
+                <button type="submit" style="display: none;"></button>
+              </vwc-button>
+        {/if}
+        {#if text && !text.startsWith('https://meetings.vonage.com/')}
+        {@html text}
+        {/if}
+   
+</div> 
+
+    
+   
 {/if}
 
 {#if 	userr}

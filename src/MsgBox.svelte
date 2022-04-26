@@ -1,6 +1,7 @@
+<svelte:options tag="msg-box" />
 <script>
 let currentDateTime = new Date();
-export let isUserMsg;
+export let userr = $$props['userr']
 
 function getHour(c) {
     return c.getHours() % 12 || 12;
@@ -70,7 +71,8 @@ function getMeridiem(c) {
 }
 </style>
 
-{#if 	!isUserMsg}
+
+{#if 	!userr}
 <div class="msg-box">
     <div class="msg-header">
         <div class="msg-title"> Agent</div>
@@ -78,7 +80,7 @@ function getMeridiem(c) {
     </div> bla bla </div>
 {/if}
 
-{#if 	isUserMsg}
+{#if 	userr}
 <div class="user-msg-box-container"> <div class="user-msg-box">     <div class="msg-header">
     <div class="user-msg-title"> User</div>
     <div class="msg-time"> • {getHour(currentDateTime)}:{getMinute(currentDateTime)} {getMeridiem(currentDateTime)}  </div>

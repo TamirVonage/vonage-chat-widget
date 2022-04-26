@@ -2,6 +2,7 @@
 
 <script>
 import MsgBox from './MsgBox.svelte';
+import { fade, fly } from 'svelte/transition';
 let showChat = true;
 
 function toggleChat() {
@@ -84,15 +85,14 @@ function toggleChat() {
 </style>
 
  {#if 	showChat} 
-	<div  class="chat-container">
+	<div class="chat-container" in:fly="{{ y: 200, duration: 1000 }}" out:fade>
 
 <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
 
-<div class="content"> 		
-            <!-- <MsgBox/>
-            <MsgBox isUserMsg={true}/>
-            <MsgBox/> -->
-
+<div class="content"> 	
+           <msg-box></msg-box>
+           <msg-box userr="true"></msg-box>
+           <msg-box></msg-box>
         </div> 
     <div class="user-input-container">
        <textarea rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
@@ -106,5 +106,5 @@ function toggleChat() {
  {/if} 
 
  {#if 	!showChat} 
-<vwc-fab on:click={toggleChat} icon="chat-2-line"></vwc-fab>
+<vwc-fab in:fly="{{ x: -200, duration: 1000 }}" out:fade on:click={toggleChat} icon="chat-2-line"></vwc-fab>
  {/if}

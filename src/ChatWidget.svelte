@@ -89,9 +89,9 @@ function toggleChat() {
 <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
 
 <div class="content"> 		
-            <MsgBox/>
+            <!-- <MsgBox/>
             <MsgBox isUserMsg={true}/>
-            <MsgBox/>
+            <MsgBox/> -->
 
         </div> 
     <div class="user-input-container">

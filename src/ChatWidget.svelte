@@ -31,6 +31,14 @@ function addMessage() {
     userInput = "";
 }
 
+function handleKeydown(event) {
+    debugger;
+   if(event.code === 'Enter') {
+    event.preventDefault();
+    addMessage();
+   }
+}
+
 
 </script>
 
@@ -119,7 +127,7 @@ function addMessage() {
            {/each}
         </div> 
     <div class="user-input-container">
-       <textarea bind:value={userInput} rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
+       <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
     <vwc-icon-button on:click={addMessage} icon="message-sent-line"></vwc-icon-button>
 
     </div>

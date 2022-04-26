@@ -17,6 +17,7 @@ let messages = [];
 let loadingResponse = false;
 let isSessionActive = false;
 let isInitialized = false;
+let container;
 
 onMount(async () => {
     initSession();
@@ -47,20 +48,28 @@ function addMessage() {
 
     
     loadingResponse = true;
+    setTimeout(() => {
+    container.querySelector(`#dots_container`).scrollIntoView()
+        
+    }, 100);
     let tempUserInput =  userInput;
     userInput = "";
 
     setTimeout(() => {
     sessionService.step(sessionId, sessionToken, tempUserInput)
         .then((res) => {
-            loadingResponse = false;
-            console.log(res);
+
             res.messages.forEach(message => {
                 messages = [...messages, {
                     isUser: false,
                     text: message.text
                 }];
             });
+         
+            setTimeout(() => {
+            container.querySelector(`#msg_${messages.length - 1}`).scrollIntoView()
+            }, 0);
+            loadingResponse = false;
            
             isSessionActive = (res.status === "ENDED");
         }).catch((err) => {
@@ -209,16 +218,16 @@ function handleKeydown(event) {
 
  {#if 	isInitialized}
  {#if 	showChat}
-    <div class="chat-container">
+    <div  bind:this={container} class="chat-container">
 
     <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="chevron-down-line" class="close-icon"> </vwc-icon></div>
 
 <div id="content_container" class="content">
-{#each messages as message}
-       <msg-box text="{message.text}" userr="{message.isUser}"></msg-box>
+{#each messages as message, index}
+       <msg-box id="msg_{index}" text="{message.text}" userr="{message.isUser}"></msg-box>
        {/each}
        {#if 	loadingResponse}
-       <div class="dotsContainer">
+       <div id="dots_container" class="dotsContainer">
            <span id="dot1" class="dot"></span>
            <span id="dot2" class="dot"></span>
            <span id="dot3" class="dot"></span>

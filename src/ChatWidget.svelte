@@ -102,7 +102,7 @@ function toggleChat() {
 </style>
 
  {#if 	showChat}
-	<div class="chat-container" in:fly="{{ y: 200, duration: 1000 }}" out:fade>
+	<div class="chat-container">
 
 <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
 
@@ -123,5 +123,5 @@ function toggleChat() {
  {/if}
 
  {#if 	!showChat}
-<vwc-fab in:fly="{{ x: -200, duration: 1000 }}" out:fade on:click={toggleChat} icon="chat-2-line"></vwc-fab>
+<vwc-fab on:click={toggleChat} icon="chat-2-line"></vwc-fab>
  {/if}

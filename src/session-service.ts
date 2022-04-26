@@ -9,7 +9,8 @@ export class SessionService {
             }),
             headers: {
                 'x-vgai-key': key
-            }
+            },
+            mode: 'no-cors'
         })
 
         const parsedRes = await res.json()

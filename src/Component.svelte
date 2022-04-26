@@ -1,4 +1,4 @@
-<svelte:options tag="component-test-1" />
+
 
 <script>
   export let name;

@@ -1,29 +1,27 @@
 <svelte:options tag="chat-widget" />
 
 <script>
-		let showChat = true;
-		function handleClick() {
-		showChat = !showChat
-		}
+import MsgBox from './MsgBox.svelte';
+let showChat = true;
 
-
+function toggleChat() {
+    showChat = !showChat
+}
 </script>
 
 <style>
+.chat-container {
+    box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%);
+    width: 500px;
+    border-radius: 18px;
+    background: white;
 
+}
 
-  .chat-container {
-        box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%);
-        width: 500px;
-        border-radius: 18px;
-        background: white;
-
-  }
-
-	.title {
-	background: rgb(42, 129, 234);
-	color: white;
-	padding: 18px;
+.title {
+    background: rgb(118 20 255);
+    color: white;
+    padding: 18px;
     border-top-right-radius: 18px;
     border-top-left-radius: 18px;
     font-weight: 300;
@@ -34,43 +32,22 @@
     justify-content: space-between;
     align-items: center;
 
-	}
+}
 
-	.content {
-		padding: 10px;
-	}
+* {
+    font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
+}
 
-	.message-bubble {
-	background: #f2f2f8;;
-	border-radius: 8px;
-	padding: 12px 14px;
-   margin-bottom: 12px;
-    display: flex;
-	}
+.content {
+    padding: 22px;
+}
 
-    .agent-message-bubble {
-        background: gray;;
-	    border-radius: 8px;
-	    padding: 12px 14px;
-       margin-bottom: 12px;
-        display: flex;
-    }
+.close-icon {
+    cursor: pointer;
+}
 
-        .close-icon {
-        cursor: pointer;
-    }
-
-    .agent-message-bubble-parent {
-               justify-content: flex-end;
-               display:flex
-    }
-
-        .message-bubble-parent {
-              display: inline-flex;
-    }
-
-    .input-textarea {
-        resize: none;
+.input-textarea {
+    resize: none;
     border: none;
     outline: none;
     box-sizing: border-box;
@@ -96,47 +73,38 @@
     scrollbar-width: none;
     flex-grow: 1;
     width: 100%;
-    }
+}
 
-    .user-input-container {
-        display:flex;
-    }
-
-  
+.user-input-container {
+    border-top: 1px solid #ebe9e9;
+    padding: 0 10px 0 10px;
+    display: flex;
+    align-items: center;
+}
 </style>
-
-
 
  {#if 	showChat} 
 	<div  class="chat-container">
-		<div class="title"> <span> Chat </span> <vwc-icon on:click={handleClick} type="minus-line" class="close-icon"> </vwc-icon></div>
-		<div class="content"> 	
-			<div class="message-bubble-parent"> 	<div class="message-bubble"> bla bla </div>  </div>
-            <div class="agent-message-bubble-parent"> <div class="agent-message-bubble"> bla bla </div> </div>
-            <div class="message-bubble-parent"> <div class="message-bubble"> bla bla bla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla bla</div> </div>
 
-		
-        
+<div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
+
+<div class="content"> 		
+            <MsgBox/>
+            <MsgBox isUserMsg={true}/>
+            <MsgBox/>
+
         </div> 
     <div class="user-input-container">
-       <textarea rows="1" id="wcw-user-input-field" role="textbox" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
+       <textarea rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
     <vwc-icon-button icon="message-sent-line"></vwc-icon-button>
-
 
     
     </div>
-     
-		</div>
 
-
+</div>
 
  {/if} 
 
  {#if 	!showChat} 
-<vwc-fab on:click={handleClick} icon="chat-2-line"></vwc-fab>
- {/if} 
-
-
-
-
-
+<vwc-fab on:click={toggleChat} icon="chat-2-line"></vwc-fab>
+ {/if}

@@ -19,7 +19,6 @@ export class SessionService {
         //     token: parsedRes.session_token
         // }
         var myHeaders = new Headers();
-        myHeaders.append("X-Vgai-Key", key);
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({"agent_id":agentId});
@@ -27,12 +26,12 @@ export class SessionService {
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
+            body: raw
         };
 
-        const res = await fetch("https://epkenjlnrk.execute-api.us-east-1.amazonaws.com/default/init", requestOptions);
-        const parsedRes = res.json();
+        const res = await fetch("https://huwums1wua.execute-api.us-east-1.amazonaws.com/prod/init", requestOptions);
+        const parsedRes = await res.json();
+
         return {
             id: parsedRes.session_id,
             token: parsedRes.session_token

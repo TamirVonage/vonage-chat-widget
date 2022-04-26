@@ -6,17 +6,24 @@ import {SessionService} from "./services/session-service.js";
 
 let showChat = true;
 let userInput;
-let messages = [];
+let messages = []
+let sessionId;
+let sessionToken;
+let sessionService = new SessionService();
 
 onMount(async () => {
-    // sessionService.init("626665f588ae9f8b9cee4d46","jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
-    //     .then((id, token) => {
-    //         console.log("id: " + id);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
 });
+
+function initSession() {
+    sessionService.init("626665f588ae9f8b9cee4d46","jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
+        .then( (res) => {
+            sessionId = res.id;
+            sessionToken = res.token;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
 function toggleChat() {
     showChat = !showChat
@@ -24,16 +31,13 @@ function toggleChat() {
 
 function addMessage() {
     messages = [...messages, {isUser: true, text: userInput}]
-    userInput = "";
-    const sessionService = new SessionService();
-    const sessionId = "12620dde-6f73-4660-ba6a-df759eefbaba";
-    const sessionToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiMTI2MjBkZGUtNmY3My00NjYwLWJhNmEtZGY3NTllZWZiYWJhIiwiaWF0IjoxNjUwOTY2ODUwfQ.eoqRi_LsnTB1XeY5H9r5MdgCieKc7ZEcBuF29jCMHqM";
     sessionService.step(sessionId, sessionToken, userInput)
         .then( (res) => {
             console.log(res);
             res.messages.forEach( message => {
                 messages = [...messages, {isUser: false, text: message.text}];
-            })
+            });
+            userInput = "";
         }).catch( (err) => {
             console.log("step request failed");
             console.log(err);

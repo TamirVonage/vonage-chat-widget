@@ -1,25 +1,21 @@
 <svelte:options tag="chat-widget" />
 
 <script>
-import MsgBox from './MsgBox.svelte';
 import { onMount } from 'svelte';
 import {SessionService} from "./services/session-service.js";
 
-import { fade, fly } from 'svelte/transition';
 let showChat = true;
 let userInput;
-let messages = [{text: 'hi', isUser: false}, {text: 'hello',isUser: true}, {text: 'yo', isUser: false}]
+let messages = []
 
 onMount(async () => {
-    const sessionService = new SessionService();
-    console.log("initializing session");
-    sessionService.init("626665f588ae9f8b9cee4d46","jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
-        .then((id, token) => {
-            console.log("id: " + id);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+    // sessionService.init("626665f588ae9f8b9cee4d46","jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
+    //     .then((id, token) => {
+    //         console.log("id: " + id);
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     });
 });
 
 function toggleChat() {
@@ -29,10 +25,22 @@ function toggleChat() {
 function addMessage() {
     messages = [...messages, {isUser: true, text: userInput}]
     userInput = "";
+    const sessionService = new SessionService();
+    const sessionId = "12620dde-6f73-4660-ba6a-df759eefbaba";
+    const sessionToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiMTI2MjBkZGUtNmY3My00NjYwLWJhNmEtZGY3NTllZWZiYWJhIiwiaWF0IjoxNjUwOTY2ODUwfQ.eoqRi_LsnTB1XeY5H9r5MdgCieKc7ZEcBuF29jCMHqM";
+    sessionService.step(sessionId, sessionToken, userInput)
+        .then( (res) => {
+            console.log(res);
+            res.messages.forEach( message => {
+                messages = [...messages, {isUser: false, text: message.text}];
+            })
+        }).catch( (err) => {
+            console.log("step request failed");
+            console.log(err);
+    });
 }
 
 function handleKeydown(event) {
-    debugger;
    if(event.code === 'Enter') {
     event.preventDefault();
     addMessage();
@@ -120,12 +128,11 @@ function handleKeydown(event) {
 
 <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
 
-<div class="content"> 	
-    {messages.length}-
+<div class="content">
     {#each messages as message}
            <msg-box text="{message.text}" userr="{message.isUser}"></msg-box>
            {/each}
-        </div> 
+        </div>
     <div class="user-input-container">
        <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
     <vwc-icon-button on:click={addMessage} icon="message-sent-line"></vwc-icon-button>

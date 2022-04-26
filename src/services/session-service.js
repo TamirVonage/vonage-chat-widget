@@ -1,21 +1,43 @@
 export class SessionService {
     async init(agentId, key) {
-        const res = await fetch('https://stairway.ai.vonage.com/http/init', {
-            method: 'POST',
-            body: JSON.stringify({
-                agent_id: agentId
-            }),
-            headers: {
-                'x-vgai-key': key
-            },
-            mode: 'no-cors'
-        })
+        // const myHeaders = new Headers();
+        // myHeaders.append("X-Vgai-Key", key);
+        // myHeaders.append("Content-Type", "application/json");
+        //
+        // const raw = JSON.stringify({"agent_id": agentId});
+        //
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: myHeaders,
+        //     body: raw
+        // };
+        //
+        // const res = await fetch("https://studio-api-eu.ai.vonage.com/http/init", requestOptions);
+        // const parsedRes = res.json();
+        // return {
+        //     id: parsedRes.session_id,
+        //     token: parsedRes.session_token
+        // }
+        var myHeaders = new Headers();
+        myHeaders.append("X-Vgai-Key", key);
+        myHeaders.append("Content-Type", "application/json");
 
-        const parsedRes = await res.json()
+        var raw = JSON.stringify({"agent_id":agentId});
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        const res = await fetch("https://epkenjlnrk.execute-api.us-east-1.amazonaws.com/default/init", requestOptions);
+        const parsedRes = res.json();
         return {
             id: parsedRes.session_id,
             token: parsedRes.session_token
         }
+
     }
 
     async step(sessionId, sessionToken, input = null) {

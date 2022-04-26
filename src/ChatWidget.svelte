@@ -8,13 +8,15 @@ import {
     SessionService
 } from "./services/session-service.js";
 
-let showChat = true;
+let showChat = false;
 let userInput;
 let sessionId;
 let sessionToken;
 let sessionService = new SessionService();
 let messages = [];
 let loadingResponse = false;
+let isSessionActive = false;
+let isInitialized = false;
 
 onMount(async () => {
     initSession();
@@ -25,6 +27,8 @@ function initSession() {
         .then((res) => {
             sessionId = res.id;
             sessionToken = res.token;
+            isInitialized = true;
+            isSessionActive = true;
         })
         .catch((err) => {
             console.log(err);
@@ -39,7 +43,12 @@ function addMessage() {
     messages = [...messages, {
         isUser: true,
         text: userInput
-    }]
+    }];
+
+    if (!isSessionActive){
+        initSession();
+    }
+
     sessionService.step(sessionId, sessionToken, userInput)
         .then((res) => {
             loadingResponse = false;
@@ -51,6 +60,7 @@ function addMessage() {
                 }];
             });
             userInput = "";
+            isSessionActive = (res.status === "ENDED");
         }).catch((err) => {
             loadingResponse = false;
             console.log("step request failed");
@@ -192,33 +202,36 @@ function handleKeydown(event) {
     align-items: center;
 }
 </style>
- {#if 	showChat}
-	<div class="chat-container">
 
-<div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
+ {#if 	isInitialized}
+ {#if 	showChat}
+    <div class="chat-container">
+
+    <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
 
 <div id="content_container" class="content">
-    {#each messages as message}
-           <msg-box text="{message.text}" userr="{message.isUser}"></msg-box>
-           {/each}
-           {#if 	loadingResponse}
-           <div class="dotsContainer">
-               <span id="dot1" class="dot"></span>
-               <span id="dot2" class="dot"></span>
-               <span id="dot3" class="dot"></span>
-             </div>
-            {/if}
+{#each messages as message}
+       <msg-box text="{message.text}" userr="{message.isUser}"></msg-box>
+       {/each}
+       {#if 	loadingResponse}
+       <div class="dotsContainer">
+           <span id="dot1" class="dot"></span>
+           <span id="dot2" class="dot"></span>
+           <span id="dot3" class="dot"></span>
+         </div>
+        {/if}
+    </div>
+<div class="user-input-container">
+   <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
+<vwc-icon-button on:click={addMessage} icon="message-sent-line"></vwc-icon-button>
+
         </div>
-    <div class="user-input-container">
-       <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
-    <vwc-icon-button on:click={addMessage} icon="message-sent-line"></vwc-icon-button>
 
     </div>
-
-</div>
 
  {/if}
 
  {#if 	!showChat}
-<vwc-fab on:click={toggleChat} icon="chat-2-line"></vwc-fab>
+    <vwc-fab on:click={toggleChat} icon="chat-2-line"></vwc-fab>
+ {/if}
  {/if}

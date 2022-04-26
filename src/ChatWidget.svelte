@@ -254,6 +254,6 @@ function handleKeydown(event) {
  {/if}
 
  {#if 	!showChat}
-    <vwc-fab on:click={toggleChat} icon="chat-2-line"></vwc-fab>
+    <vwc-fab connotation="cta" on:click={toggleChat} icon="chat-2-line"></vwc-fab>
  {/if}
  {/if}

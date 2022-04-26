@@ -1,22 +1,28 @@
 <svelte:options tag="chat-widget" />
 
 <script>
-import { onMount } from 'svelte';
-import {SessionService} from "./services/session-service.js";
+import {
+    onMount
+} from 'svelte';
+import {
+    SessionService
+} from "./services/session-service.js";
 
 let showChat = true;
 let userInput;
-let messages = []
 let sessionId;
 let sessionToken;
 let sessionService = new SessionService();
+let messages = [];
+let loadingResponse = false;
 
 onMount(async () => {
+    initSession();
 });
 
 function initSession() {
-    sessionService.init("626665f588ae9f8b9cee4d46","jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
-        .then( (res) => {
+    sessionService.init("626665f588ae9f8b9cee4d46", "jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
+        .then((res) => {
             sessionId = res.id;
             sessionToken = res.token;
         })
@@ -30,28 +36,35 @@ function toggleChat() {
 }
 
 function addMessage() {
-    messages = [...messages, {isUser: true, text: userInput}]
+    messages = [...messages, {
+        isUser: true,
+        text: userInput
+    }]
     sessionService.step(sessionId, sessionToken, userInput)
-        .then( (res) => {
+        .then((res) => {
+            loadingResponse = false;
             console.log(res);
-            res.messages.forEach( message => {
-                messages = [...messages, {isUser: false, text: message.text}];
+            res.messages.forEach(message => {
+                messages = [...messages, {
+                    isUser: false,
+                    text: message.text
+                }];
             });
             userInput = "";
-        }).catch( (err) => {
+        }).catch((err) => {
+            loadingResponse = false;
             console.log("step request failed");
             console.log(err);
-    });
+        });
+
 }
 
 function handleKeydown(event) {
-   if(event.code === 'Enter') {
-    event.preventDefault();
-    addMessage();
-   }
+    if (event.code === 'Enter') {
+        event.preventDefault();
+        addMessage();
+    }
 }
-
-
 </script>
 
 <style>
@@ -123,6 +136,55 @@ function handleKeydown(event) {
     width: 100%;
 }
 
+.dotsContainer {
+    display: flex;
+    align-items: center;
+    width: 3.5rem;
+    margin-left: 42px;
+    background: #e7e8e8;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #cacaca;
+    border-radius: 50%;
+    margin: 2px;
+    transition: all 0.5s ease-in-out;
+    animation: typing 1s infinite;
+}
+
+@keyframes typing {
+    0% {
+        transform: translateY(0);
+        transition: all 0.5s ease-in-out;
+    }
+
+    50% {
+        transform: translateY(-3px);
+        transition: all 0.5s ease-in-out;
+    }
+
+    100% {
+        transform: translateY(0);
+        transition: all 0.5s ease-in-out;
+    }
+}
+
+#dot1 {
+    animation-delay: 0.2s;
+}
+
+#dot2 {
+    animation-delay: 0.5s;
+}
+
+#dot3 {
+    animation-delay: 0.7s;
+}
+
 .user-input-container {
     border-top: 1px solid #ebe9e9;
     padding: 0 10px 0 10px;
@@ -139,6 +201,13 @@ function handleKeydown(event) {
     {#each messages as message}
            <msg-box text="{message.text}" userr="{message.isUser}"></msg-box>
            {/each}
+           {#if 	loadingResponse}
+           <div class="dotsContainer">
+               <span id="dot1" class="dot"></span>
+               <span id="dot2" class="dot"></span>
+               <span id="dot3" class="dot"></span>
+             </div>
+            {/if}
         </div>
     <div class="user-input-container">
        <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>

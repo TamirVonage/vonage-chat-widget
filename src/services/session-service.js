@@ -1,7 +1,5 @@
-import { Message } from "../message";
-
 export class SessionService {
-    async init(agentId: string, key: string): Promise<{ id: string, token: string }> {
+    async init(agentId, key) {
         const res = await fetch('https://stairway.ai.vonage.com/http/init', {
             method: 'POST',
             body: JSON.stringify({
@@ -20,7 +18,7 @@ export class SessionService {
         }
     }
 
-    async step(sessionId: string, sessionToken: string, input = null): Promise<{ status: string, messages: Message[] }> {
+    async step(sessionId, sessionToken, input = null) {
         const res = await fetch(`https://stairway.ai.vonage.com/http/${sessionId}/step`, {
             method: 'POST',
             body: JSON.stringify({

@@ -2,11 +2,28 @@
 
 <script>
 import MsgBox from './MsgBox.svelte';
+import { onMount } from 'svelte';
+import {SessionService} from "./services/session-service.js";
+
 let showChat = true;
+
+onMount(async () => {
+    const sessionService = new SessionService();
+    console.log("initializing session");
+    sessionService.init("626665f588ae9f8b9cee4d46","jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
+        .then((id, token) => {
+            console.log("id: " + id);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
 
 function toggleChat() {
     showChat = !showChat
 }
+
+
 </script>
 
 <style>
@@ -83,28 +100,28 @@ function toggleChat() {
 }
 </style>
 
- {#if 	showChat} 
+ {#if 	showChat}
 	<div  class="chat-container">
 
 <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
 
-<div class="content"> 		
-            <!-- <MsgBox/>
-            <MsgBox isUserMsg={true}/>
-            <MsgBox/> -->
+<div class="content">
+<!--            <MsgBox/>-->
+<!--            <MsgBox isUserMsg={true}/>-->
+<!--            <MsgBox/>-->
 
-        </div> 
+        </div>
     <div class="user-input-container">
        <textarea rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
     <vwc-icon-button icon="message-sent-line"></vwc-icon-button>
 
-    
+
     </div>
 
 </div>
 
- {/if} 
+ {/if}
 
- {#if 	!showChat} 
+ {#if 	!showChat}
 <vwc-fab on:click={toggleChat} icon="chat-2-line"></vwc-fab>
  {/if}

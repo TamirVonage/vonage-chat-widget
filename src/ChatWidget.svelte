@@ -7,6 +7,7 @@ import {SessionService} from "./services/session-service.js";
 
 import { fade, fly } from 'svelte/transition';
 let showChat = true;
+let messages = [{text: 'hi', isUser: false}, {text: 'hello',isUser: true}, {text: 'yo', isUser: false}]
 
 onMount(async () => {
     const sessionService = new SessionService();
@@ -106,11 +107,11 @@ function toggleChat() {
 
 <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
 
-<div class="content">
-           <msg-box></msg-box>
-           <msg-box userr="true"></msg-box>
-           <msg-box></msg-box>
-        </div>
+<div class="content"> 	
+    {#each messages as message}
+           <msg-box text="{message.text}" userr="{message.isUser}"></msg-box>
+           {/each}
+        </div> 
     <div class="user-input-container">
        <textarea rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
     <vwc-icon-button icon="message-sent-line"></vwc-icon-button>

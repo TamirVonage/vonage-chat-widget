@@ -6,7 +6,7 @@ import {SessionService} from "./services/session-service.js";
 
 let showChat = true;
 let userInput;
-let messages = []
+let messages = [];
 
 onMount(async () => {
     // sessionService.init("626665f588ae9f8b9cee4d46","jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
@@ -53,7 +53,7 @@ function handleKeydown(event) {
 <style>
 .chat-container {
     box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%);
-    width: 500px;
+    width: 449px;
     border-radius: 18px;
     background: white;
 
@@ -81,6 +81,9 @@ function handleKeydown(event) {
 
 .content {
     padding: 22px;
+    height: 450px;
+    max-height: 450px;
+    overflow-y: auto;
 }
 
 .close-icon {
@@ -128,7 +131,7 @@ function handleKeydown(event) {
 
 <div class="title"> <span> Chat </span> <vwc-icon on:click={toggleChat} type="minus-line" class="close-icon"> </vwc-icon></div>
 
-<div class="content">
+<div id="content_container" class="content">
     {#each messages as message}
            <msg-box text="{message.text}" userr="{message.isUser}"></msg-box>
            {/each}

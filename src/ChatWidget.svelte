@@ -27,7 +27,8 @@ function toggleChat() {
 }
 
 function addMessage() {
-    messages.push({isUser: true, text: userInput})
+    messages = [...messages, {isUser: true, text: userInput}]
+    userInput = "";
 }
 
 
@@ -106,7 +107,6 @@ function addMessage() {
     align-items: center;
 }
 </style>
-
  {#if 	showChat}
 	<div class="chat-container">
 

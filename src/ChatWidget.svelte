@@ -48,7 +48,8 @@ function addMessage() {
     if (!isSessionActive){
         initSession();
     }
-
+    loadingResponse = true;
+    setTimeout(() => {
     sessionService.step(sessionId, sessionToken, userInput)
         .then((res) => {
             loadingResponse = false;
@@ -66,6 +67,8 @@ function addMessage() {
             console.log("step request failed");
             console.log(err);
         });
+    }, 500);
+   
 
 }
 

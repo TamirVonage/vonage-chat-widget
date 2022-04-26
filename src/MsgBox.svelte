@@ -44,7 +44,7 @@ function getMeridiem(c) {
 
 .msg-box {
     background: #f2f2f8;
-    ;
+    overflow-wrap: break-word;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
     border-radius: 8px;
     padding: 1rem 1.5rem;
@@ -69,21 +69,26 @@ function getMeridiem(c) {
     max-width: 265px;
     border: 1px solid #E6E6E6;
     margin-bottom: 2rem;
+    overflow-wrap: break-word;
 }
 </style>
 
 {#if 	!userr}
+
 <div class="msg-box">
     <div class="msg-header">
         <div class="msg-title"> Agent</div>
         <div class="msg-time"> • {getHour(currentDateTime)}:{getMinute(currentDateTime)} {getMeridiem(currentDateTime)}  </div>
-    </div> {text} </div>
+    </div> {@html text} </div>
 {/if}
 
 {#if 	userr}
 <div class="user-msg-box-container"> <div class="user-msg-box">     <div class="msg-header">
     <div class="user-msg-title"> User</div>
     <div class="msg-time"> • {getHour(currentDateTime)}:{getMinute(currentDateTime)} {getMeridiem(currentDateTime)}  </div>
-</div> {text} </div>
+</div>
+
+{text}
+  </div>
 </div>
 {/if}

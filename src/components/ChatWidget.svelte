@@ -1,4 +1,4 @@
-<svelte:options tag="chat-widget" />
+<svelte:options tag="vg-chat-widget" />
 
 <script>
 import {
@@ -6,7 +6,7 @@ import {
 } from 'svelte';
 import {
     SessionService
-} from "./services/session-service.js";
+} from "../services/session-service.js";
 
 let showChat = false;
 let userInput;
@@ -46,11 +46,11 @@ function addMessage() {
         text: userInput
     }];
 
-    
+
     loadingResponse = true;
     setTimeout(() => {
     container.querySelector(`#dots_container`).scrollIntoView()
-        
+
     }, 100);
     let tempUserInput =  userInput;
     userInput = "";
@@ -65,12 +65,12 @@ function addMessage() {
                     text: message.text
                 }];
             });
-         
+
             setTimeout(() => {
             container.querySelector(`#msg_${messages.length - 1}`).scrollIntoView()
             }, 0);
             loadingResponse = false;
-           
+
             isSessionActive = (res.status === "ENDED");
         }).catch((err) => {
             loadingResponse = false;
@@ -78,7 +78,7 @@ function addMessage() {
             console.log(err);
         });
     }, 500);
-   
+
 
 }
 

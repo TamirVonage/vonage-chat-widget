@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup -c",
+    "build:watch": "rollup -c -w",
     "prepublishOnly": "npm run build",
     "test": "jest test",
     "test:watch": "yarn test -- --watch",

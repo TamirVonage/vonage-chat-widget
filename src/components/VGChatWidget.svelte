@@ -94,7 +94,6 @@
 {#if isInitialized}
     {#if showChat}
         <div bind:this={container} class="chat-container">
-
             <div class="title">
                 <div class="title-with-icon">
                     <vwc-icon class="bot-icon" type="bot-line"></vwc-icon>
@@ -116,14 +115,13 @@
                     </div>
                 {/if}
             </div>
+
             <div class="user-input-container">
                 <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field"
                           tabindex="0" placeholder="Enter your message..." class="input-textarea"
                           spellcheck="false"></textarea>
                 <vwc-icon-button on:click={addMessage} icon="message-sent-line"></vwc-icon-button>
-
             </div>
-
         </div>
 
     {/if}

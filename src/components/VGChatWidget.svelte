@@ -1,127 +1,137 @@
-<svelte:options tag="vg-chat-widget" />
+<svelte:options tag="vg-chat-widget"/>
 
 <script>
-import {
-    onMount
-} from 'svelte';
-import {
-    SessionService
-} from "../services/session-service.js";
+    import {
+        onMount
+    } from 'svelte';
+    import {
+        SessionService
+    } from "../services/session-service.js";
+    import "./MsgBox.svelte";
 
-let showChat = false;
-let userInput;
-let sessionId;
-let sessionToken;
-let sessionService = new SessionService();
-let messages = [];
-let loadingResponse = false;
-let isSessionActive = false;
-let isInitialized = false;
-let container;
+    let showChat = false;
+    let userInput;
+    let sessionId;
+    let sessionToken;
+    let sessionService = new SessionService();
+    let messages = [];
+    let loadingResponse = false;
+    let isSessionActive = false;
+    let isInitialized = false;
+    let container;
 
-onMount(async () => {
-    initSession();
-});
+    onMount(async () => {
+        initSession();
+    });
 
-function initSession() {
-    sessionService.init("626665f588ae9f8b9cee4d46", "jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
-        .then((res) => {
-            sessionId = res.id;
-            sessionToken = res.token;
-            isInitialized = true;
-            isSessionActive = true;
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}
-
-function toggleChat() {
-    showChat = !showChat
-}
-
-function addMessage() {
-    messages = [...messages, {
-        isUser: true,
-        text: userInput
-    }];
-
-
-    loadingResponse = true;
-    setTimeout(() => {
-    container.querySelector(`#dots_container`).scrollIntoView()
-
-    }, 100);
-    let tempUserInput =  userInput;
-    userInput = "";
-
-    setTimeout(() => {
-    sessionService.step(sessionId, sessionToken, tempUserInput)
-        .then((res) => {
-
-            res.messages.forEach(message => {
-                messages = [...messages, {
-                    isUser: false,
-                    text: message.text
-                }];
+    function initSession() {
+        sessionService.init("626665f588ae9f8b9cee4d46", "jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
+            .then((res) => {
+                sessionId = res.id;
+                sessionToken = res.token;
+                isInitialized = true;
+                isSessionActive = true;
+            })
+            .catch((err) => {
+                console.log(err);
             });
-
-            setTimeout(() => {
-            container.querySelector(`#msg_${messages.length - 1}`).scrollIntoView()
-            }, 0);
-            loadingResponse = false;
-
-            isSessionActive = (res.status === "ENDED");
-        }).catch((err) => {
-            loadingResponse = false;
-            console.log("step request failed");
-            console.log(err);
-        });
-    }, 500);
-
-
-}
-
-function handleKeydown(event) {
-    if (event.code === 'Enter') {
-        event.preventDefault();
-        addMessage();
     }
-}
+
+    function toggleChat() {
+        showChat = !showChat
+    }
+
+    function addMessage() {
+        messages = [...messages, {
+            isUser: true,
+            text: userInput
+        }];
+
+
+        loadingResponse = true;
+        setTimeout(() => {
+            container.querySelector(`#dots_container`).scrollIntoView()
+
+        }, 100);
+        let tempUserInput = userInput;
+        userInput = "";
+
+        setTimeout(() => {
+            sessionService.step(sessionId, sessionToken, tempUserInput)
+                .then((res) => {
+
+                    res.messages.forEach(message => {
+                        messages = [...messages, {
+                            isUser: false,
+                            text: message.text
+                        }];
+                    });
+
+                    setTimeout(() => {
+                        container.querySelector(`#msg_${messages.length - 1}`).scrollIntoView()
+                    }, 0);
+                    loadingResponse = false;
+
+                    isSessionActive = (res.status === "ENDED");
+                }).catch((err) => {
+                loadingResponse = false;
+                console.log("step request failed");
+                console.log(err);
+            });
+        }, 500);
+
+
+    }
+
+    function handleKeydown(event) {
+        if (event.code === 'Enter') {
+            event.preventDefault();
+            addMessage();
+        }
+    }
 </script>
 
- {#if 	isInitialized}
- {#if 	showChat}
-    <div  bind:this={container} class="chat-container">
+{#if isInitialized}
+    {#if showChat}
+        <div bind:this={container} class="chat-container">
 
-    <div class="title"> <div class="title-with-icon">  <vwc-icon class="bot-icon" type="bot-line"> </vwc-icon> <span> Chat </span> </div> <vwc-icon on:click={toggleChat} type="chevron-down-line" class="close-icon"> </vwc-icon></div>
+            <div class="title">
+                <div class="title-with-icon">
+                    <vwc-icon class="bot-icon" type="bot-line"></vwc-icon>
+                    <span> Chat </span>
+                </div>
+                <vwc-icon on:click={toggleChat} type="chevron-down-line" class="close-icon">
+                </vwc-icon>
+            </div>
 
-<div id="content_container" class="content">
-{#each messages as message, index}
-       <msg-box id="msg_{index}" text="{message.text}" userr="{message.isUser}"></msg-box>
-       {/each}
-       {#if 	loadingResponse}
-       <div id="dots_container" class="dotsContainer">
-           <span id="dot1" class="dot"></span>
-           <span id="dot2" class="dot"></span>
-           <span id="dot3" class="dot"></span>
-         </div>
-        {/if}
-    </div>
-<div class="user-input-container">
-   <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field" tabindex="0" placeholder="Enter your message..." class="input-textarea" spellcheck="false"></textarea>
-<vwc-icon-button on:click={addMessage} icon="message-sent-line"></vwc-icon-button>
+            <div id="content_container" class="content">
+                {#each messages as message, index}
+                    <msg-box id="msg_{index}" text="{message.text}" userr="{message.isUser}"></msg-box>
+                {/each}
+                {#if loadingResponse}
+                    <div id="dots_container" class="dotsContainer">
+                        <span id="dot1" class="dot"></span>
+                        <span id="dot2" class="dot"></span>
+                        <span id="dot3" class="dot"></span>
+                    </div>
+                {/if}
+            </div>
+            <div class="user-input-container">
+                <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field"
+                          tabindex="0" placeholder="Enter your message..." class="input-textarea"
+                          spellcheck="false"></textarea>
+                <vwc-icon-button on:click={addMessage} icon="message-sent-line"></vwc-icon-button>
+
+            </div>
 
         </div>
 
-    </div>
+    {/if}
 
- {/if}
-
- {#if 	!showChat}
-    <vwc-fab connotation="cta" on:click={toggleChat} icon="chat-2-line"></vwc-fab>
- {/if}
- {/if}
+    {#if !showChat}
+        <vwc-fab connotation="cta" on:click={toggleChat} icon="chat-2-line"></vwc-fab>
+    {/if}
+{/if}
 
 <style>
     .chat-container {

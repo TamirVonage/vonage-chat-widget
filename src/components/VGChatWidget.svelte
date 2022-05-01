@@ -126,10 +126,7 @@
             </div>
 
         {/if}
-
-        <!--{#if !showChat}-->
-            <vwc-fab class="fab" connotation="cta" on:click={toggleChat} icon="chat-2-line"></vwc-fab>
-        <!--{/if}-->
+        <vwc-fab class="fab" connotation="cta" on:click={toggleChat} icon="chat-2-line"></vwc-fab>
     {/if}
 </div>
 

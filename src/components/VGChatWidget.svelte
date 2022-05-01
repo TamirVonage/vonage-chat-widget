@@ -1,13 +1,10 @@
 <svelte:options tag="vg-chat-widget"/>
 
 <script>
-    import {
-        onMount
-    } from 'svelte';
-    import {
-        SessionService
-    } from "../services/session-service.js";
+    import {onMount} from 'svelte';
+    import {SessionService} from "../services/session-service.ts";
     import "./MsgBox.svelte";
+    import { fade } from 'svelte/transition';
 
     let showChat = false;
     let userInput;
@@ -25,7 +22,7 @@
     });
 
     function initSession() {
-        sessionService.init("626665f588ae9f8b9cee4d46", "jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
+        sessionService.initSession("626665f588ae9f8b9cee4d46", "jbcokfMGPc0282y7nX0Xiq4nDhMqMp")
             .then((res) => {
                 sessionId = res.id;
                 sessionToken = res.token;
@@ -94,7 +91,7 @@
 <div class="vg-chat-widget-main-container">
     {#if isInitialized}
         {#if showChat}
-            <div bind:this={container} class="chat-container">
+            <div bind:this={container} class="chat-container" transition:fade="{{duration: 200}}">
                 <div class="title">
                     <div class="title-with-icon">
                         <vwc-icon class="bot-icon" type="bot-line"></vwc-icon>
@@ -106,7 +103,7 @@
 
                 <div id="content_container" class="content">
                     {#each messages as message, index}
-                        <msg-box id="msg_{index}" text="{message.text}" userr="{message.isUser}"></msg-box>
+                        <msg-box id="msg_{index}" text="{message.text}" user="{message.isUser}"></msg-box>
                     {/each}
                     {#if loadingResponse}
                         <div id="dots_container" class="dotsContainer">

@@ -3,11 +3,15 @@ import resolve from '@rollup/plugin-node-resolve';
 import {terser} from 'rollup-plugin-terser';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import pkg from './package.json';
+import autoPreprocess from 'svelte-preprocess';
+import typescript from '@rollup/plugin-typescript';
 
 const name = pkg.name
 	.replace(/^(@\S+\/)?(svelte-)?(\S+)/, '$3')
 	.replace(/^\w/, m => m.toUpperCase())
 	.replace(/-\w/g, m => m[1].toUpperCase());
+
+const production = !process.env.ROLLUP_WATCH;
 
 export default {
 	input: 'src/index.js',
@@ -18,8 +22,15 @@ export default {
 	],
 	inlineDynamicImports: true,
 	plugins: [
-		svelte({compilerOptions: {customElement: true}}),
+		svelte({
+			compilerOptions: {customElement: true},
+			preprocess: autoPreprocess()
+		}),
 		nodeResolve(),
+		typescript({
+			sourceMap: !production,
+			inlineSources: !production
+		}),
 		resolve()
 	]
 };

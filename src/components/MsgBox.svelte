@@ -1,8 +1,9 @@
 <svelte:options tag="msg-box"/>
-<script>
-    let currentDateTime = new Date();
-    export let text;
-    export let userr;
+
+<script lang="ts">
+    let currentDateTime: Date = new Date();
+    export let text: string;
+    export let user: string;
 
     function getHour(c) {
         return c.getHours() % 12 || 12;
@@ -16,7 +17,7 @@
         return c.getHours() < 12 ? "AM" : "PM";
     }
 
-    function openMetting(c) {
+    function openMeeting(c) {
         window.open("https://meetings.vonage.com/234299", "_blank")
     }
 </script>
@@ -82,30 +83,27 @@
     }
 </style>
 
-{#if !userr}
+{#if !user}
 
     <div class="msg-box">
         <div class="msg-header">
             <div class="msg-title"> Agent</div>
-            <div class="msg-time"> • {getHour(currentDateTime)}
-                :{getMinute(currentDateTime)} {getMeridiem(currentDateTime)}  </div>
+            <div class="msg-time">
+                • {getHour(currentDateTime)}:{getMinute(currentDateTime)} {getMeridiem(currentDateTime)}
+            </div>
         </div>
         {#if text && text.startsWith('https://meetings.vonage.com/')}
-            <vwc-button connotation="cta" icon="open-line" class="open-meeting-btn" on:click={openMetting}
+            <vwc-button connotation="cta" icon="open-line" class="open-meeting-btn" on:click={openMeeting}
                         label="Open meeting" layout="filled" type="submit" unelevated="">
-                <button type="submit" style="display: none;"></button>
             </vwc-button>
         {/if}
         {#if text && !text.startsWith('https://meetings.vonage.com/')}
             {@html text}
         {/if}
-
     </div>
-
-
 {/if}
 
-{#if userr}
+{#if user}
     <div class="user-msg-box-container">
         <div class="user-msg-box">
             <div class="msg-header">

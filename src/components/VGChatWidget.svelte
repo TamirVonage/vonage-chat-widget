@@ -91,53 +91,68 @@
     }
 </script>
 
-{#if isInitialized}
-    {#if showChat}
-        <div bind:this={container} class="chat-container">
-            <div class="title">
-                <div class="title-with-icon">
-                    <vwc-icon class="bot-icon" type="bot-line"></vwc-icon>
-                    <span> Chat </span>
-                </div>
-                <vwc-icon on:click={toggleChat} type="chevron-down-line" class="close-icon">
-                </vwc-icon>
-            </div>
-
-            <div id="content_container" class="content">
-                {#each messages as message, index}
-                    <msg-box id="msg_{index}" text="{message.text}" userr="{message.isUser}"></msg-box>
-                {/each}
-                {#if loadingResponse}
-                    <div id="dots_container" class="dotsContainer">
-                        <span id="dot1" class="dot"></span>
-                        <span id="dot2" class="dot"></span>
-                        <span id="dot3" class="dot"></span>
+<div class="vg-chat-widget-main-container">
+    {#if isInitialized}
+        {#if showChat}
+            <div bind:this={container} class="chat-container">
+                <div class="title">
+                    <div class="title-with-icon">
+                        <vwc-icon class="bot-icon" type="bot-line"></vwc-icon>
+                        <span> Chat </span>
                     </div>
-                {/if}
+                    <vwc-icon on:click={toggleChat} type="chevron-down-line" class="close-icon">
+                    </vwc-icon>
+                </div>
+
+                <div id="content_container" class="content">
+                    {#each messages as message, index}
+                        <msg-box id="msg_{index}" text="{message.text}" userr="{message.isUser}"></msg-box>
+                    {/each}
+                    {#if loadingResponse}
+                        <div id="dots_container" class="dotsContainer">
+                            <span id="dot1" class="dot"></span>
+                            <span id="dot2" class="dot"></span>
+                            <span id="dot3" class="dot"></span>
+                        </div>
+                    {/if}
+                </div>
+
+                <div class="user-input-container">
+                    <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field"
+                              tabindex="0" placeholder="Enter your message..." class="input-textarea"
+                              spellcheck="false"></textarea>
+                    <vwc-icon-button on:click={addMessage} icon="message-sent-line"></vwc-icon-button>
+                </div>
             </div>
 
-            <div class="user-input-container">
-                <textarea on:keydown={handleKeydown} bind:value={userInput} rows="1" id="wcw-user-input-field"
-                          tabindex="0" placeholder="Enter your message..." class="input-textarea"
-                          spellcheck="false"></textarea>
-                <vwc-icon-button on:click={addMessage} icon="message-sent-line"></vwc-icon-button>
-            </div>
-        </div>
+        {/if}
 
+        <!--{#if !showChat}-->
+            <vwc-fab class="fab" connotation="cta" on:click={toggleChat} icon="chat-2-line"></vwc-fab>
+        <!--{/if}-->
     {/if}
-
-    {#if !showChat}
-        <vwc-fab connotation="cta" on:click={toggleChat} icon="chat-2-line"></vwc-fab>
-    {/if}
-{/if}
+</div>
 
 <style>
+
+    .vg-chat-widget-main-container {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        margin: 10px;
+        text-align: right;
+    }
+
     .chat-container {
         box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%);
         width: 449px;
         border-radius: 18px;
         background: white;
+        margin: 10px;
+    }
 
+    .fab {
+        margin: 10px;
     }
 
     .title {

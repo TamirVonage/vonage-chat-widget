@@ -14,7 +14,7 @@ npm install # or yarn
 
 Your component's source code lives in `src/Component.svelte`.
 
-You can create a package that exports multiple components by adding them to the `src` directory and editing `src/index.js` to reexport them as named exports.
+You can create a package that exports multiple components by adding them to the `src` directory and editing `src/index.ts` to reexport them as named exports.
 
 ## This template includes:
 

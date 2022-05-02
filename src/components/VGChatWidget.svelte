@@ -1,12 +1,12 @@
 <svelte:options tag="vg-chat-widget"/>
 
-<script>
-    import {onMount} from 'svelte';
-    import {SessionService} from "../services/session-service.ts";
+<script lang="ts">
+    import { onMount } from 'svelte';
+    import { SessionService } from "../services/session-service.ts";
     import "./MsgBox.svelte";
     import { fade } from 'svelte/transition';
 
-    let showChat = false;
+    let showChat: boolean = false;
     let userInput;
     let sessionId;
     let sessionToken;
@@ -43,7 +43,6 @@
             isUser: true,
             text: userInput
         }];
-
 
         loadingResponse = true;
         setTimeout(() => {
